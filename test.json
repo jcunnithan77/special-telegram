@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "PSS QR Code Authentication",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/authenticateqr/": {
+      "post": {
+        "summary": "Authenticate Qr",
+        "operationId": "authenticateqr",
+        "tags": [
+          "authenticateqr"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticatedResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Custom Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Un Authorized"
+          },
+          "500": {
+            "description": "Unexpected Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "schemas": {
+      "AuthenticateRequest": {
+        "type": "object",
+        "properties": {
+          "Gate": {
+            "description": "name of the gate",
+            "type": "string"
+          },
+          "QrCode": {
+            "description": "qrcode",
+            "type": "string"
+          },
+          "DateTime": {
+            "description": "DateTime",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "AuthenticatedResponse": {
+        "type": "object",
+        "properties": {
+          "Gate": {
+            "description": "name of the gate",
+            "type": "string"
+          },
+          "isAuthenticated": {
+            "description": "is authenticated the Qr",
+            "type": "boolean"
+          },
+          "DateTime": {
+            "description": "DateTime",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "Code": {
+            "description": "Error code",
+            "type": "string"
+          },
+          "Messgae": {
+            "description": "Error Messge",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
