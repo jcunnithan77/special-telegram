@@ -1,127 +1,323 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.0.1",
   "info": {
-    "title": "PSS QR Code Authentication",
-    "version": "1.0.0"
+    "title": "SVMS.Api",
+    "version": "v1"
   },
   "paths": {
-    "/api/authenticateqr/": {
+    "/ValidateVisit": {
       "post": {
-        "summary": "Authenticate Qr",
-        "operationId": "authenticateqr",
         "tags": [
-          "authenticateqr"
-        ],
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
+          "ValidateVisit"
         ],
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthenticateRequest"
+                "$ref": "#/components/schemas/ValidateVisitModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateVisitModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateVisitModel"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthenticatedResponse"
-                }
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Visit/visit": {
+      "post": {
+        "tags": [
+          "Visit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitRequestModel"
               }
             }
-          },
-          "400": {
-            "description": "Custom Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Visit/potentialvisit": {
+      "get": {
+        "tags": [
+          "Visit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitRequestModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitRequestModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitRequestModel"
               }
             }
-          },
-          "401": {
-            "description": "Un Authorized"
-          },
-          "500": {
-            "description": "Unexpected Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Visit": {
+      "post": {
+        "tags": [
+          "Visit"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitModel"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
     }
   },
   "components": {
-    "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-API-Key"
-      }
-    },
     "schemas": {
-      "AuthenticateRequest": {
+      "ValidateVisitModel": {
         "type": "object",
         "properties": {
-          "Gate": {
-            "description": "name of the gate",
-            "type": "string"
-          },
-          "QrCode": {
-            "description": "qrcode",
-            "type": "string"
-          },
-          "DateTime": {
-            "description": "DateTime",
+          "id": {
             "type": "string",
-            "format": "date-time"
+            "nullable": true
+          },
+          "visistId": {
+            "type": "string",
+            "nullable": true
+          },
+          "repMobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "key": {
+            "type": "string",
+            "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
       },
-      "AuthenticatedResponse": {
+      "VisitRequestModel": {
         "type": "object",
         "properties": {
-          "Gate": {
-            "description": "name of the gate",
-            "type": "string"
+          "repID": {
+            "type": "string",
+            "nullable": true
           },
-          "isAuthenticated": {
-            "description": "is authenticated the Qr",
+          "repMobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitID": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Vehicle": {
+        "type": "object",
+        "properties": {
+          "plateno": {
+            "type": "string",
+            "nullable": true
+          },
+          "platecolor": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleModel": {
+            "type": "string",
+            "nullable": true
+          },
+          "vehicleYear": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Visitor": {
+        "type": "object",
+        "properties": {
+          "visitorID": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "vistorstatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitorDob": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitorImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "nationality": {
+            "type": "string",
+            "nullable": true
+          },
+          "idType": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "photoStatus": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vehicles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Vehicle"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VisitModel": {
+        "type": "object",
+        "properties": {
+          "visitStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "isEditable": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostName": {
+            "type": "string",
+            "nullable": true
+          },
+          "hostOrg": {
+            "type": "string",
+            "nullable": true
+          },
+          "gate": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitArea": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitType": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitPurpose": {
+            "type": "string",
+            "nullable": true
+          },
+          "maxVehicles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxVisitors": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isPhotoRequired": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ispassportallowed": {
             "type": "boolean"
           },
-          "DateTime": {
-            "description": "DateTime",
+          "isIqamaallowed": {
             "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "properties": {
-          "Code": {
-            "description": "Error code",
-            "type": "string"
+            "nullable": true
           },
-          "Messgae": {
-            "description": "Error Messge",
-            "type": "string"
+          "visitStart": {
+            "type": "string",
+            "nullable": true
+          },
+          "visitEnd": {
+            "type": "string",
+            "nullable": true
+          },
+          "vistors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Visitor"
+            },
+            "nullable": true
           }
-        }
+        },
+        "additionalProperties": false
       }
     }
   }
